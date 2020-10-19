@@ -1,7 +1,6 @@
-import React from 'react';
-import { checkAuth } from "../authentication/PrivateRoute";
-import { useState } from 'react';
-import Link from "react-router-dom";
+import React, {useState} from 'react';
+import { checkAuth } from "../authentication/auth";
+import { Redirect, useHistory } from "react-router-dom";
 import { fetchAuth } from "../fetchJS/fetch";
 import Toast from "./notification";
 
@@ -19,38 +18,54 @@ function Login(props)
     )
 }
 
-class LoginForm extends React.Component
+function LoginForm()
 {
-    state = {
-        username: '',
-        password: '',
-    }
-    handleSubmit = (username, password, e) =>
+    // Declare a new state variable, which we'll call "count"
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    let history = useHistory();
+    
+    //determine history in the fetchAuth
+    async function handleSubmit(e)
     {
-      e.preventDefault()
-      fetchAuth(username, password);
+      e.preventDefault();
+      fetchAuth(username, password)
+      .then(authentication =>{
+        if (authentication)
+        {
+          history.push("/dashboard");
+        }
+      });
+      /*
+      try 
+      {
+        let authenticated = fetchAuth(username, password);
+        //find ways to make it wait
+        console.log(`authenticated = ${authenticated}`);
+        if (true)
+        {
+          history.push("/dashboard");
+        }
+      } catch (e) {
+        alert(e.message);
+      }
+      */
     }
-    handleChange = (e) =>
-    {
-        this.setState({[e.target.name]: e.target.value})
-    }
-    render()
-    {
-        const {username, password} = this.state;
-        return(
-            <form style={{padding: "10px"}} onSubmit={(e) => {this.handleSubmit(username, password, e)}}>
+    return(
+        <form style={{padding: "10px"}} onSubmit={(e) => {handleSubmit(e)}}>
 
-                <label for="username"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="username" onChange={this.handleChange} value={this.state.username} required />
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username" onChange={(e) => setUsername(e.target.value)} value={username} required />
 
-                <label for="password"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" onChange={this.handleChange} value={this.state.password} required />
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" onChange={(e) => setPassword(e.target.value)} value={password} required />
 
-                <div style={{width:"100%", textAlign: "center"}}><button type="submit">SIGN IN</button></div>
-            </form>
-        )
-    }
+            <div style={{width:"100%", textAlign: "center"}}><button type="submit">SIGN IN</button></div>
+        </form>
+    )
 }
+
+
 
 function SVGDecoration()
 {

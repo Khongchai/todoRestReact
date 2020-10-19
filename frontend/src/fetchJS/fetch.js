@@ -1,4 +1,4 @@
-import {checkAuth} from "../authentication/PrivateRoute";
+import {checkAuth} from "../authentication/auth";
 
 export const getData = () => fetch("http://127.0.0.1:8000/api/tasks/").then(response => catchErrors(response))
 
@@ -14,7 +14,7 @@ export const saveData = (data, editing) => fetch(createOrEdit(editing, data.id),
 
 export const fetchAuth = (username, password) =>
 {
-    fetch("http://127.0.0.1:8000/api/auth/login",{
+    return fetch("http://127.0.0.1:8000/api/auth/login",{
         method: "POST",
         headers:{
             "Content-type": "application/json",
@@ -26,9 +26,7 @@ export const fetchAuth = (username, password) =>
         })
     })
     .then(response => response.json())
-    .then(data => {
-        checkAuth(data);
-    })
+    .then(data => checkAuth(data))
 }
 
 

@@ -1,7 +1,6 @@
 import React from "react";
-import{ Route, Redirect} from "react-router-dom";
+import{ Route, Redirect, useHistory } from "react-router-dom";
 import { showToast } from "../accounts/notification";
-import { redirect } from "react-router-dom";
 
 export var auth = {
     "isAuthenticated": localStorage.getItem("isAuthenticated")? localStorage.getItem("isAuthenticated"): false,
@@ -9,7 +8,7 @@ export var auth = {
     "token": localStorage.getItem("token")? localStorage.getItem("token"): null,
 }
 
-export function checkAuth(data) 
+export async function checkAuth(data) 
 {
     if (data.token)
     {
@@ -22,7 +21,7 @@ export function checkAuth(data)
         localStorage.setItem("token", auth.token);
         localStorage.setItem("isAuthenticated", auth.isAuthenticated);
         localStorage.setItem("user", auth.user);
-        redirectTo();
+        return redirectTo()
     }
     else 
     {
@@ -34,8 +33,10 @@ export function checkAuth(data)
 export function redirectTo()
 {
     let authenticated = localStorage.getItem("isAuthenticated");
-    if (token)
+    let token = localStorage.getItem("token");
+    if (token && authenticated)
     {
+        //val should be true
         return authenticated;
     }
     else 
