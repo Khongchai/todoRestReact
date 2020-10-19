@@ -30,8 +30,8 @@ function LoginForm()
     {
       e.preventDefault();
       fetchAuth(username, password)
-      .then(authentication =>{
-        if (authentication)
+      .then(authenticated =>{
+        if (authenticated)
         {
           history.push("/dashboard");
         }
