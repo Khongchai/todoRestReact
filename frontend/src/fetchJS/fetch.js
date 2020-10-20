@@ -1,13 +1,19 @@
-import {checkAuth} from "../authentication/auth";
+import {checkAuth, auth} from "../authentication/auth";
 
-export const getData = () => fetch("http://127.0.0.1:8000/api/tasks/").then(response => catchErrors(response))
+export const getData = () => fetch("http://127.0.0.1:8000/api/tasks/", {
+    method: "GET",
+    headers: {
+        "Authorization": `Token ${auth.token}`,
+    }
+}).then(response => catchErrors(response))
 
 export const saveData = (data, editing) => fetch(createOrEdit(editing, data.id),
 {
     method: editing===true? "PUT":"POST", 
     headers: {
         "Content-type": "application/json",
-        'X-CSRFToken': csrftoken
+        'X-CSRFToken': csrftoken,
+        "Authorization": `Token ${auth.token}`,
     },
     body: JSON.stringify(data)
 }).then(response => catchErrors(response))
@@ -48,7 +54,8 @@ export const deleteTask= (id) => fetch(`http://127.0.0.1:8000/api/tasks/${id}/`,
     method: "DELETE", 
     headers: {
         "Content-type": "application/json",
-        'X-CSRFToken': csrftoken
+        'X-CSRFToken': csrftoken,
+        "Authorization": `Token ${auth.token}`,
     },
     body: id
 }).then(response => catchErrors(response))
