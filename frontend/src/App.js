@@ -44,11 +44,6 @@ export default App;
 
 
 /*
-TODO:
-  - Redirect user from register and login if user already logged in:
-      may need to put all route together: just make a component that determines the route.
-  - Attach token into the Authentication header for all outgoing fetch requests.
-  - Make sure the top nav bar changes when user is logged in.
-  - Log out functionality.
-  - Link user and task by looking at which user this token belongs to.
+things not implemented: Logout, Filter tasks from API side, change nav bar when logged in.
+Things implemented: Login, redirect when logged in, when not logged in, CRUD for tasks.
 */
