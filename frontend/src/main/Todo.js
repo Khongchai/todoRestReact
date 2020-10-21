@@ -114,7 +114,7 @@ class TodoList extends React.Component
               </div>
               <div id="list-wrapper">
                 {this.state.todoList.map((task, index) => {
-                  var title = task.completed? <span><strike>{task.title}</strike></span>: <span>{task.title}</span>;
+                  var title = task.completed? <div className="todos"><strike>{task.title}</strike></div>: <div className="todos">{task.title}</div>;
                   return (
                     <div key={index} onClick={(e) => {self.addStrikeThrough(task, e)}} className="task-wrapper flex-wrapper">
                       <div style={{flex: 7}}>
