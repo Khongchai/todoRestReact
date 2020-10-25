@@ -34,10 +34,12 @@ class LoginAPI(generics.GenericAPIView):
         #this is where the user gets created
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        #deserialize
         user = serializer.validated_data
         _, token = AuthToken.objects.creaete(user) #this is the same as the method above, just another pythonic way of achieving the result.
         return Response({
-            "user": UserSerializer(user).data, #context might not be necessary
+            #serialize again through the format specified in UserSerializer.
+            "user": UserSerializer(user).data, 
             "token": token
         })
 
