@@ -34,6 +34,7 @@ class LoginSerializer(serializers.Serializer):
 
     #the "data" argument below is determined by the fields up there
     def validate(self, data):
+        #this line below is just a standard django authentication method for user https://docs.djangoproject.com/en/3.1/topics/auth/default/#authenticating-users)
         user = authenticate(**data)
         if user and user.is_active:
             return user
