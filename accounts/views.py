@@ -35,13 +35,10 @@ class LoginAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
+        _, token = AuthToken.objects.creaete(user) #this is the same as the method above, just another pythonic way of achieving the result.
         return Response({
-            #"user" is returned so that the info within can be utilized if needed:
-            #ex. Welcome, "John".
             "user": UserSerializer(user).data, #context might not be necessary
-            #This create a token for the user and also returns a JSON so you can see in the console.
-            #AuthToken returns a tuple (instance, token). So to get the token, we need to do [1].
-            "token": AuthToken.objects.create(user)[1]
+            "token": token
         })
 
 
